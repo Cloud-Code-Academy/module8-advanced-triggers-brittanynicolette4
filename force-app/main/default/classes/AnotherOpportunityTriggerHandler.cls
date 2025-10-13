@@ -75,14 +75,16 @@ public with sharing class AnotherOpportunityTriggerHandler {
             Map<Id, Opportunity> oppMap = new Map<Id, Opportunity>();
             Set<Id> oppIds = new Set<Id>();
             for (Opportunity opp : opps) {
-            oppIds.add(opp.AccountId);
+                if (opp.Primary_Contact__c == null && opp.AccountId != null){
+                    oppIds.add(opp.AccountId);
+                }
         }
             List<Contact> primaryContacts = [SELECT Id, AccountId FROM Contact WHERE Title = 'VP Sales' AND AccountId IN :oppIds];
             Map<Id, Contact> accountToContact = new Map<Id, Contact>();
             for (Contact con : primaryContacts){
                 accountToContact.put(con.AccountId, con);
             }
-            for (Opportunity opp : oppMap.values()){            
+            for (Opportunity opp : opps){            
                 if (opp.Primary_Contact__c == null){
                     Opportunity oppToUpdate = new Opportunity(Id = opp.Id);
                     Contact primaryContact = accountToContact.get(opp.AccountId);
