@@ -8,7 +8,7 @@ public with sharing class OpportunityTriggerHandler extends TriggerHandler {
     }
 
     public override void afterUpdate() {
-        AnotherOpportunityTriggerHandler.oppStageUpdate(Trigger.oldMap, Trigger.newMap);
+        AnotherOpportunityTriggerHandler.oppStageUpdate((Map<Id, Opportunity>) Trigger.oldMap, (Map<Id, Opportunity>) Trigger.newMap);
     }
 
     public override void beforeDelete() {
